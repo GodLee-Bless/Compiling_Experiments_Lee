@@ -24,7 +24,7 @@ LE \<=
 NEQ \<>
 SLP \(
 SRP \)
-SEM \;
+SEMI \;
 IF if
 THEN then
 ELSE else
@@ -80,6 +80,7 @@ END end
 {END} {printf("END -\n");} 
 {WHILE} {printf("WHILE -\n");} 
 {IDN} {printf("IDN %s\n",yytext);} 
+{SEMI} {printf("SEMI -\n");} 
 . {}
 [ \t]+ {}
 %%

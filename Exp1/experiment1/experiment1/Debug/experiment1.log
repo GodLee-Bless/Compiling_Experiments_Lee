@@ -1,6 +1,0 @@
-﻿  main.cpp
-e:\编译原理上机\compiling_experiments\exp1\experiment1\experiment1\input.l(43): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
-e:\编译原理上机\compiling_experiments\exp1\experiment1\experiment1\input.l(45): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
-e:\编译原理上机\compiling_experiments\exp1\experiment1\experiment1\input.l(47): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
-e:\编译原理上机\compiling_experiments\exp1\experiment1\experiment1\input.l(56): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
-  experiment1.vcxproj -> E:\编译原理上机\Compiling_Experiments\Exp1\experiment1\Debug\experiment1.exe
