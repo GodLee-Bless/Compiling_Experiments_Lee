@@ -2,7 +2,8 @@
 	#include<stdio.h>
 	#include<stdlib.h>
 	#include<math.h>
-	int line=1;
+	#include"tree.h"
+	#include"tree.tab.h"
 %}
 %option yylineno
 LETTER [a-zA-Z]
@@ -33,62 +34,35 @@ DO do
 BEGIN begin
 END end
 %%
-\n {++line;}
-{DEC} {printf("DEC %s\n",yytext);} 
-{HEX} {
-			char *x = yytext;
-			int num = 0, n = 0, length = strlen(yytext);
-			for (int i = length - 1; i > 1; i--) {
-			if (x[i] <= '9')
-				num += (x[i] - '0')*pow(16, n);
-			else if(x[i]>='a')
-				num += (x[i] - 'a' + 10)*pow(16, n);
-			else if(x[i]>='A')
-				num += (x[i] - 'A' + 10)*pow(16, n);
-			n++;
-			}
-			printf("HEX %d\n",num);
-		}
-{OCT} {
-			char *x = yytext;
-			int num = 0, n = 0, length = strlen(yytext);
-			for (int i = length - 1; i > 0; i--) {
-				num += (x[i] - '0')*pow(8, n);
-				n++;
-			}
-			printf("OCT %d\n",num);
-		}
-{ILHEX} {printf("ILHEX -\n");} 
-{ILOCT} {printf("ILOCT -\n");} 
-{ADD} {printf("ADD -\n");} 
-{SUB} {printf("SUB -\n");}
-{MUL} {printf("MUL -\n");}
-{DIV} {printf("DIV -\n");}
-{GT} {printf("GT -\n");}
-{LT} {printf("LT -\n");}
-{EQ} {printf("EQ -\n");}
-{GE} {printf("GE -\n");}
-{LE} {printf("LE -\n");}
-{NEQ} {printf("NEQ -\n");}
-{SLP} {printf("SLP -\n");}
-{SRP} {printf("SRP -\n");}
-{IF} {printf("IF -\n");}
-{THEN} {printf("THEN -\n");} 
-{ELSE} {printf("ELSE -\n");} 
-{DO} {printf("DO -\n");} 
-{BEGIN} {printf("BEGIN -\n");} 
-{END} {printf("END -\n");} 
-{WHILE} {printf("WHILE -\n");} 
-{IDN} {printf("IDN %s\n",yytext);} 
-{SEMI} {printf("SEMI -\n");} 
+{DEC} {yylval.type_tnode=newAst("DEC",0,yylineno);return DEC;} 
+{HEX} {yylval.type_tnode=newAst("HEX",0,yylineno);return HEX;}
+{OCT} {yylval.type_tnode=newAst("OCT",0,yylineno);return OCT;}
+{ILHEX} {yylval.type_tnode=newAst("ILHEX",0,yylineno);return ILHEX;} 
+{ILOCT} {yylval.type_tnode=newAst("ILOCT",0,yylineno);return ILOCT;} 
+{ADD} {yylval.type_tnode=newAst("ADD",0,yylineno);return ADD;} 
+{SUB} {yylval.type_tnode=newAst("SUB",0,yylineno);return SUB;}
+{MUL} {yylval.type_tnode=newAst("MUL",0,yylineno);return MUL;}
+{DIV} {yylval.type_tnode=newAst("DIV",0,yylineno);return DIV;}
+{GT} {yylval.type_tnode=newAst("GT",0,yylineno);return GT;}
+{LT} {yylval.type_tnode=newAst("LT",0,yylineno);return LT;}
+{EQ} {yylval.type_tnode=newAst("EQ",0,yylineno);return EQ;}
+{GE} {yylval.type_tnode=newAst("GE",0,yylineno);return GE;}
+{LE} {yylval.type_tnode=newAst("LE",0,yylineno);return LE;}
+{NEQ} {yylval.type_tnode=newAst("NEQ",0,yylineno);return NEQ;}
+{SLP} {yylval.type_tnode=newAst("SLP",0,yylineno);return SLP;}
+{SRP} {yylval.type_tnode=newAst("SRP",0,yylineno);return SRP;}
+{IF} {yylval.type_tnode=newAst("IF",0,yylineno);return IF;}
+{THEN} {yylval.type_tnode=newAst("THEN",0,yylineno);return THEN;} 
+{ELSE} {yylval.type_tnode=newAst("ELSE",0,yylineno);return ELSE;} 
+{DO} {yylval.type_tnode=newAst("DO",0,yylineno);return DO;} 
+{BEGIN} {yylval.type_tnode=newAst("BEGIN",0,yylineno);return BEGIN;} 
+{END} {yylval.type_tnode=newAst("END",0,yylineno);return END;} 
+{WHILE} {yylval.type_tnode=newAst("WHILE",0,yylineno);return WHILE;} 
+{IDN} {yylval.type_tnode=newAst("IDN",0,yylineno);return IDN;} 
+{SEMI} {yylval.type_tnode=newAst("SEMI",0,yylineno);return SEMI;} 
 . {}
 [ \t]+ {}
 %%
-int main(){
-	yyin = fopen(".\\data.txt", "r");
-	yylex();
-	return 0;
-}
 int yywrap(){
 	return 1;
 }
