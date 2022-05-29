@@ -7,7 +7,7 @@
 %union{
     	tnode type_tnode;
 	double d;
-} 
+}
  
 %token <type_tnode> IDN DEC OCT HEX "id"
 %token <type_tnode> ILHEX ILOCT
@@ -24,8 +24,8 @@
 %token <type_tnode> SLP '('
 %token <type_tnode> SRP ')'
 %token <type_tnode> SEMI ';'
-%token <type_tnode> IF ELSE WHILE DO BEGIN END
- 
+%token <type_tnode> IF ELSE WHILE DO BEGIN END THEN
+%type <type_tnode> P L S C E T F
 
 %left SUB ADD SRP
 %left MUL DIV
@@ -33,7 +33,7 @@
    	
 %%
 P:L {$$=newAst("P",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
-	|L P1 {$$=newAst("P",2,$1,$2);nodeList[nodeNum]=$$;nodeNum++;} 
+	|L P {$$=newAst("P",2,$1,$2);nodeList[nodeNum]=$$;nodeNum++;} 
 	;
 L:S {$$=newAst("L",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
 	;
@@ -58,11 +58,11 @@ T:F {$$=newAst("T",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
 	|T '/' F {$$=newAst("T",3,$1,$2,$3);nodeList[nodeNum]=$$;nodeNum++;}
 	;
 F:'(' E ')' {$$=newAst("F",3,$1,$2,$3);nodeList[nodeNum]=$$;nodeNum++;}
-	|"id" {$$=newAst("F",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
 	|OCT {$$=newAst("F",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
 	|DEC {$$=newAst("F",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
 	|HEX {$$=newAst("F",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
-
+	|"id" {$$=newAst("F",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
+	;
 %%
  
 int main()

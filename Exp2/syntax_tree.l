@@ -2,8 +2,8 @@
 	#include<stdio.h>
 	#include<stdlib.h>
 	#include<math.h>
-	#include"tree.h"
-	#include"tree.tab.h"
+	#include"syntax_tree.h"
+	#include"syntax_tree.tab.h"
 %}
 %option yylineno
 LETTER [a-zA-Z]
