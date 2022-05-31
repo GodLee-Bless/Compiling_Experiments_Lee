@@ -38,7 +38,7 @@
 P:L {printf("P:L\n");$$=newAst("P",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
 	|L P {printf("P:L P\n");$$=newAst("P",2,$1,$2);nodeList[nodeNum]=$$;nodeNum++;} 
 	;
-L:S SEMI {printf("L:S\n");$$=newAst("L",2,$1,$2);nodeList[nodeNum]=$$;nodeNum++;}
+L:S SEMI {printf("L:S;\n");$$=newAst("L",2,$1,$2);nodeList[nodeNum]=$$;nodeNum++;}
 	;
 S:id EQ E {printf("S:id = E\n");$$=newAst("S",3,$1,$2,$3);nodeList[nodeNum]=$$;nodeNum++;}
 	|IF C THEN W ELSE S {printf("S:IF C THEN W ELSE S\n");$$=newAst("S",6,$1,$2,$3,$4,$5,$6);nodeList[nodeNum]=$$;nodeNum++;}
