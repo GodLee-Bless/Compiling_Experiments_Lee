@@ -1,11 +1,9 @@
 #include "syntax_tree.h"
 
-int i;
-
 Ast newAst(char *name, int num, ...)
 {
-    tnode father = (tnode)malloc(sizeof(struct treeNode));
-    tnode temp = (tnode)malloc(sizeof(struct treeNode));
+    tnode father = (tnode)malloc(sizeof(struct treeNode));//父结点
+    tnode temp = (tnode)malloc(sizeof(struct treeNode));//子结点
     if (!father)
     {
         yyerror("create treenode error");
@@ -16,22 +14,44 @@ Ast newAst(char *name, int num, ...)
     va_list list;
     va_start(list, num);
 
-    if (num > 0)
+    if (num > 0)//表示当前非终结符
     {
-        temp = va_arg(list, tnode);
-        setChildTag(temp);
+        temp = va_arg(list, tnode);//获取当前参数列表中第一个结点
+        setChildTag(temp);//设置相应结点tag
         father->fchild = temp;
         father->line = temp->line;
 
-        if (num >= 2)
+        if (num >= 2)//子结点大于1个，横向存放为第一个子结点的兄弟结点
         {
-            for (i = 0; i < num - 1; ++i)
+            for (int i = 0; i < num - 1; ++i)
             {
                 temp->next = va_arg(list, tnode);
                 temp = temp->next;
                 setChildTag(temp);
             }
         }
+    }
+    else //num = 0的情况，表示当前节点是终结符（叶节点）或者空的语法单元，此时num表示行号（空单元为-1）,将对应的值存入union
+    {
+        father->line = va_arg(list, int);//获取该节点的yylineno行号，
+        /*
+        if ((!strcmp(name, "ID")) || (!strcmp(name, "TYPE")))
+        {
+            char *str;
+            str = (char *)malloc(sizeof(char) * 40);
+            strcpy(str, yytext);
+            father->id_type = str;
+            // father->id_type = (char*)malloc(sizeof(char)*40);
+            // strcpy(father->id_type,yytext);
+        }
+        else if (!strcmp(name, "INT"))
+        {
+            father->intval = atoi(yytext);
+        }
+        else
+        {
+            father->fltval = atof(yytext);
+        }*/
     }
     return father;
 }
@@ -40,7 +60,7 @@ void Preorder(Ast ast, int level)
 {
     if (ast != NULL)
     {
-        for (i = 0; i < level; ++i)
+        for (int i = 0; i < level; ++i)
         {
             printf("   ");
         }
@@ -63,7 +83,7 @@ void yyerror(char const*msg)
 void setChildTag(tnode node)
 {
     int i;
-    for (i = 0; i < nodeNum; i++)
+    for (int i = 0; i < nodeNum; i++)
     {
         if (nodeList[i] == node)
         {
@@ -74,13 +94,12 @@ void setChildTag(tnode node)
 
 int main(int argc, char **argv)
 {
-    int j;
     printf("start analysis\n");
     if (argc < 2)
     {
         return 1;
     }
-    for (i = 1; i < argc; i++)
+    for (int i = 1; i < argc; i++)
     {
         nodeNum = 0;
         memset(nodeList, 0, sizeof(tnode) * 5000);
@@ -99,7 +118,7 @@ int main(int argc, char **argv)
 
         if (hasFault)
             continue;
-        for (j = 0; j < nodeNum; j++)
+        for (int j = 0; j < nodeNum; j++)
         {
             if (nodeIsChild[j] != 1)
             {

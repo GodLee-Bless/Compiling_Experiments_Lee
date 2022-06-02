@@ -65,5 +65,5 @@ id {IDN}{DEC}|{IDN}
 [ \t]+ {}
 %%
 int yywrap(){
-	return 1;
+	return 1;//不考虑连续输入多个文件，故返回1
 }
