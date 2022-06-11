@@ -26,16 +26,8 @@
 %token <type_tnode> SEMI 
 %token <type_tnode> IF ELSE WHILE DO BEGIN END THEN
 %type <type_tnode> P L S C E T F W
-
-%left SRP SUB ADD SLP
-%left MUL DIV 
-%left THEN DO 
-%left EQ GT LT GE LE NEQ 
-%right IF WHILE
-%nonassoc SEMI	
-
 %%
-P:L {printf("P:L\n");$$=newAst("P",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
+P:L     {printf("P:L\n");$$=newAst("P",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
 	|L P {printf("P:L P\n");$$=newAst("P",2,$1,$2);nodeList[nodeNum]=$$;nodeNum++;} 
 	;
 L:S SEMI {printf("L:S\n");$$=newAst("L",2,$1,$2);nodeList[nodeNum]=$$;nodeNum++;}
@@ -60,11 +52,7 @@ E:E ADD T {printf("E:E+T\n");$$=newAst("E",3,$1,$2,$3);nodeList[nodeNum]=$$;node
 	|E SUB T {printf("E:E-T\n");$$=newAst("E",3,$1,$2,$3);nodeList[nodeNum]=$$;nodeNum++;}
 	|T {printf("E:T\n");$$=newAst("E",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
 	;
-<<<<<<< Updated upstream
-T:F {printf("T:F\n");$$=newAst("T",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
-=======
 T       :F {printf("T:F\n");$$=newAst("T",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
->>>>>>> Stashed changes
 	|T MUL F {printf("T:T*F\n");$$=newAst("T",3,$1,$2,$3);nodeList[nodeNum]=$$;nodeNum++;}
 	|T DIV F {printf("T:T/F\n");$$=newAst("T",3,$1,$2,$3);nodeList[nodeNum]=$$;nodeNum++;}
 	;
