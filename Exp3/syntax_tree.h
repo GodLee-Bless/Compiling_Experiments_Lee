@@ -39,14 +39,6 @@ typedef struct treeNode{
     	int temp;//临时变量
 	int flag;//判断取是变量还是常数,0表示为变量名1表示为常数值2表示为临时变量
     }place;
-    
-    
-    
-    /*struct Code {//代码
-	//bool isgoto;
-	char c[1024];
-	int L;
-    }code;*/
 }* Ast,* tnode;
 
 // 构造抽象语法树(节点)
@@ -65,8 +57,7 @@ void newtemp(int *ast_temp);
 char* getPlaceStr(Ast ast);
 //替换字符串中的字符串
 char *strrpc(char *str,char *oldstr,char *newstr);
-//删去重复的label
-//void del_RepeatLabel();
+
 
 
 // 所有节点数量

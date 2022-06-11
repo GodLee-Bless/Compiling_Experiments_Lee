@@ -82,6 +82,7 @@ void newlabel(int *ast_label){
 	perror("No availiable label!\n");//标签不足报错
 }
 
+
 //将label对应的编号转为正规形式 如：155 -> _Ae5
 char* label_Tran(int label_num){
 	char * tempstr = (char*)malloc(11);

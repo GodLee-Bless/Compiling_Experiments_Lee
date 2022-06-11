@@ -459,9 +459,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    38,    38,    66,    75,    93,   107,   120,   121,   139,
-     166,   167,   168,   192,   212,   232,   252,   272,   291,   312,
-     329,   346,   353,   358,   375,   394,   399,   406,   413,   420
+       0,    38,    38,    58,    67,    85,    99,   112,   140,   158,
+     185,   198,   225,   250,   270,   290,   310,   330,   349,   370,
+     387,   404,   411,   416,   433,   452,   457,   464,   471,   478
 };
 #endif
 
@@ -1276,27 +1276,19 @@ yyreduce:
 			char* label = (char*)malloc(20);
 			memset(rplabel, 0 ,sizeof(char)*20);
 			memset(label, 0 ,sizeof(char)*20);
-			
-			/*strcat(rplabel,label_Tran(i));
-			strcat(rplabel,":\n");
-			strcat(rplabel,label_Tran(i));
-			strcat(rplabel,":");			
-			strcat(label,label_Tran(i));
-			strcat(label,":");*/
 			sprintf(rplabel,"%s: \n%s:",label_Tran(i),label_Tran(i));
 			sprintf(label,"%s:",label_Tran(i));
-			printf("a = \n%s\nb = \n%s\n",rplabel,label);
 			strrpc((yyval.type_tnode)->code,rplabel,label);
 		}
 		
 		
 		printf("\n\n\n%s",(yyval.type_tnode)->code);
 		}
-#line 1296 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1288 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 66 "syntax_tree.y" /* yacc.c:1646  */
+#line 58 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("P:L\n");(yyval.type_tnode)=newAst("P",1,(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		
@@ -1306,11 +1298,11 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,(yyvsp[0].type_tnode)->code);//P.code = L.code
 		//printf("\n\n\n%s",$$->code);
 		}
-#line 1310 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1302 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 75 "syntax_tree.y" /* yacc.c:1646  */
+#line 67 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("P:L P\n");(yyval.type_tnode)=newAst("P",2,(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		
@@ -1327,11 +1319,11 @@ yyreduce:
 		
 		//printf("\n\n\n%s",$$->code);
 		}
-#line 1331 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1323 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 93 "syntax_tree.y" /* yacc.c:1646  */
+#line 85 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("L:S SEMI\n");(yyval.type_tnode)=newAst("L",2,(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;	
 		
@@ -1344,11 +1336,11 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,": \n");
 		//printf("\n\n\n%s",$$->code);
 		}
-#line 1348 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1340 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 107 "syntax_tree.y" /* yacc.c:1646  */
+#line 99 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("S:id = E\n");(yyval.type_tnode)=newAst("S",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		newlabel(&((yyval.type_tnode)->label.l_next));//newlabel(s.next)
@@ -1362,20 +1354,47 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,"\n");
 		//printf("\n\n\n%s",$$->code);
 		}
-#line 1366 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1358 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 120 "syntax_tree.y" /* yacc.c:1646  */
-    {printf("S:IF C THEN W ELSE S\n");(yyval.type_tnode)=newAst("S",6,(yyvsp[-5].type_tnode),(yyvsp[-4].type_tnode),(yyvsp[-3].type_tnode),(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;}
-#line 1372 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 112 "syntax_tree.y" /* yacc.c:1646  */
+    {
+		printf("S:IF C THEN W ELSE S\n");(yyval.type_tnode)=newAst("S",6,(yyvsp[-5].type_tnode),(yyvsp[-4].type_tnode),(yyvsp[-3].type_tnode),(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
+		newlabel(&((yyval.type_tnode)->label.l_begin));//newlabel(s.begin)
+		(yyval.type_tnode)->label.l_next = (yyvsp[0].type_tnode)->label.l_next;//S.next = S1.next
+		
+		strcat((yyval.type_tnode)->code,(yyvsp[-4].type_tnode)->code);//S.code = C.code ||
+		//gen(C.true ':') ||
+		strcat((yyval.type_tnode)->code,label_Tran((yyvsp[-4].type_tnode)->label.l_true));
+		strcat((yyval.type_tnode)->code,": \n");
+		strcat((yyval.type_tnode)->code,(yyvsp[-2].type_tnode)->code);// W.code
+		//gen(‘goto’ S.next)||
+		strcat((yyval.type_tnode)->code,"goto ");
+		strcat((yyval.type_tnode)->code,label_Tran((yyval.type_tnode)->label.l_next));
+		strcat((yyval.type_tnode)->code,"\n");
+		//gen(C.false ‘:’)||
+		strcat((yyval.type_tnode)->code,label_Tran((yyvsp[-4].type_tnode)->label.l_false));
+		strcat((yyval.type_tnode)->code,": \n");
+		//S1.code
+		strcat((yyval.type_tnode)->code,(yyvsp[0].type_tnode)->code);
+
+		//回填(W.next,S.next);
+		strrpc((yyval.type_tnode)->code,label_Tran((yyvsp[-2].type_tnode)->label.l_next),label_Tran((yyval.type_tnode)->label.l_next));
+		//回填(C.true,W.begin);
+		strrpc((yyval.type_tnode)->code,label_Tran((yyvsp[-4].type_tnode)->label.l_true),label_Tran((yyvsp[-2].type_tnode)->label.l_begin));
+		//回填(C.false,S1.begin);
+		strrpc((yyval.type_tnode)->code,label_Tran((yyvsp[-4].type_tnode)->label.l_false),label_Tran((yyvsp[0].type_tnode)->label.l_begin));
+		
+		}
+#line 1391 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 121 "syntax_tree.y" /* yacc.c:1646  */
+#line 140 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("S:IF C THEN S\n");(yyval.type_tnode)=newAst("S",4,(yyvsp[-3].type_tnode),(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
-		newlabel(&((yyval.type_tnode)->label.l_begin));
+		newlabel(&((yyval.type_tnode)->label.l_begin));//newlabel(s.begin)
 		(yyval.type_tnode)->label.l_next = (yyvsp[0].type_tnode)->label.l_next;//S.next = S1.next
 		
 		
@@ -1391,11 +1410,11 @@ yyreduce:
 		strrpc((yyval.type_tnode)->code,label_Tran((yyvsp[-2].type_tnode)->label.l_true),label_Tran((yyvsp[0].type_tnode)->label.l_begin));
 		
 		}
-#line 1395 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1414 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 139 "syntax_tree.y" /* yacc.c:1646  */
+#line 158 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("S:WHILE C DO S\n");(yyval.type_tnode)=newAst("S",4,(yyvsp[-3].type_tnode),(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		
@@ -1421,50 +1440,89 @@ yyreduce:
 		//printf("\n\n\n%s",$$->code);
 		
 		}
-#line 1425 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1444 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 166 "syntax_tree.y" /* yacc.c:1646  */
-    {printf("W:id = E\n");(yyval.type_tnode)=newAst("W",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;}
-#line 1431 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 185 "syntax_tree.y" /* yacc.c:1646  */
+    {
+		printf("W:id = E\n");(yyval.type_tnode)=newAst("W",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
+		newlabel(&((yyval.type_tnode)->label.l_next));//newlabel(W.next)
+		newlabel(&((yyval.type_tnode)->label.l_begin));//newlabel(W.begin)
+				
+		strcat((yyval.type_tnode)->code,(yyvsp[0].type_tnode)->code);//W.code = E.code
+		//gen(id.place ':=' E.place)
+		strcat((yyval.type_tnode)->code,(yyvsp[-2].type_tnode)->content);
+		strcat((yyval.type_tnode)->code," := ");
+		strcat((yyval.type_tnode)->code,getPlaceStr((yyvsp[0].type_tnode)));
+		strcat((yyval.type_tnode)->code,"\n");
+		//printf("\n\n\n%s",$$->code);		
+		}
+#line 1462 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 167 "syntax_tree.y" /* yacc.c:1646  */
-    {printf("W:IF C THEN W ELSE W\n");(yyval.type_tnode)=newAst("W",6,(yyvsp[-5].type_tnode),(yyvsp[-4].type_tnode),(yyvsp[-3].type_tnode),(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;}
-#line 1437 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 198 "syntax_tree.y" /* yacc.c:1646  */
+    {
+		printf("W:IF C THEN W ELSE W\n");(yyval.type_tnode)=newAst("W",6,(yyvsp[-5].type_tnode),(yyvsp[-4].type_tnode),(yyvsp[-3].type_tnode),(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
+		newlabel(&((yyval.type_tnode)->label.l_begin));//newlabel(W.begin)
+		(yyval.type_tnode)->label.l_next = (yyvsp[0].type_tnode)->label.l_next;//W.next = W2.next
+		
+		strcat((yyval.type_tnode)->code,(yyvsp[-4].type_tnode)->code);//W.code = C.code ||
+		//gen(C.true ':') ||
+		strcat((yyval.type_tnode)->code,label_Tran((yyvsp[-4].type_tnode)->label.l_true));
+		strcat((yyval.type_tnode)->code,": \n");
+		strcat((yyval.type_tnode)->code,(yyvsp[-2].type_tnode)->code);// W1.code
+		//gen(‘goto’ W.next)||
+		strcat((yyval.type_tnode)->code,"goto ");
+		strcat((yyval.type_tnode)->code,label_Tran((yyval.type_tnode)->label.l_next));
+		strcat((yyval.type_tnode)->code,"\n");
+		//gen(C.false ‘:’)||
+		strcat((yyval.type_tnode)->code,label_Tran((yyvsp[-4].type_tnode)->label.l_false));
+		strcat((yyval.type_tnode)->code,": \n");
+		//W2.code
+		strcat((yyval.type_tnode)->code,(yyvsp[0].type_tnode)->code);
+
+		//回填(W1.next,W.next);
+		strrpc((yyval.type_tnode)->code,label_Tran((yyvsp[-2].type_tnode)->label.l_next),label_Tran((yyval.type_tnode)->label.l_next));
+		//回填(C.true,W1.begin);
+		strrpc((yyval.type_tnode)->code,label_Tran((yyvsp[-4].type_tnode)->label.l_true),label_Tran((yyvsp[-2].type_tnode)->label.l_begin));
+		//回填(C.false,W2.begin);
+		strrpc((yyval.type_tnode)->code,label_Tran((yyvsp[-4].type_tnode)->label.l_false),label_Tran((yyvsp[0].type_tnode)->label.l_begin));
+		}
+#line 1494 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 168 "syntax_tree.y" /* yacc.c:1646  */
+#line 225 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("W:WHILE C DO W\n");(yyval.type_tnode)=newAst("W",4,(yyvsp[-3].type_tnode),(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
-		/*char temp[50];
-		newlabel(&($$->label_begin));
-		$$->label_next = $2->label_false;
-		$4->label_begin = $$->label_next;
-		sprintf(temp,"%d",$$->label_begin);
-		strcat($$->code,temp);
-		strcat($$->code,": \n");
-		strcat($$->code,$2->code);
-		strcat($$->code,"\n");
+		(yyval.type_tnode)->label.l_next = (yyvsp[-2].type_tnode)->label.l_false;//W.next = C.false;
+		(yyval.type_tnode)->label.l_begin = (yyvsp[0].type_tnode)->label.l_next;//W.begin = W1.next;
 		
-		sprintf(temp,"%d",$2->label_true);
-		strcat($$->code,temp);
-		strcat($$->code,": \n");
-		strcat($$->code,$4->code);
-		strcat($$->code,"\n");
-		strcat($$->code,"goto L");
-		sprintf(temp,"%d",$$->label_begin);
-		strcat($$->code,temp);
-		//printf($$->code.c);*/
+		//S.code = gen(W.begin ':') ||
+		strcat((yyval.type_tnode)->code,label_Tran((yyval.type_tnode)->label.l_begin));
+		strcat((yyval.type_tnode)->code,": \n");
+		strcat((yyval.type_tnode)->code,(yyvsp[-2].type_tnode)->code);//C.code ||
+		//gen(C.true ':') ||
+		strcat((yyval.type_tnode)->code,label_Tran((yyvsp[-2].type_tnode)->label.l_true));
+		strcat((yyval.type_tnode)->code,": \n");
+		strcat((yyval.type_tnode)->code,(yyvsp[0].type_tnode)->code);//S1.code ||
+		//gen('goto' W.begin)
+		strcat((yyval.type_tnode)->code,"goto ");
+		strcat((yyval.type_tnode)->code,label_Tran((yyval.type_tnode)->label.l_begin));
+		strcat((yyval.type_tnode)->code,"\n");
+		//printf("\n\n\n%s\n\n\n",$$->code);
+		
+		//W1.begin 回填 C.true
+		strrpc((yyval.type_tnode)->code,label_Tran((yyvsp[-2].type_tnode)->label.l_true),label_Tran((yyvsp[0].type_tnode)->label.l_begin));
+		//printf("\n\n\n%s",$$->code);
 		}
-#line 1464 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1522 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 192 "syntax_tree.y" /* yacc.c:1646  */
+#line 250 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("C:E > E\n");(yyval.type_tnode)=newAst("C",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		char temp[10];
@@ -1485,11 +1543,11 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,label_Tran((yyval.type_tnode)->label.l_false));
 		strcat((yyval.type_tnode)->code,"\n");
 		}
-#line 1489 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1547 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 212 "syntax_tree.y" /* yacc.c:1646  */
+#line 270 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("C:E < E\n");(yyval.type_tnode)=newAst("C",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		char temp[10];
@@ -1510,11 +1568,11 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,label_Tran((yyval.type_tnode)->label.l_false));
 		strcat((yyval.type_tnode)->code,"\n");
 		}
-#line 1514 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1572 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 232 "syntax_tree.y" /* yacc.c:1646  */
+#line 290 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("C:E = E\n");(yyval.type_tnode)=newAst("C",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		char temp[10];
@@ -1535,11 +1593,11 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,label_Tran((yyval.type_tnode)->label.l_false));
 		strcat((yyval.type_tnode)->code,"\n");
 		}
-#line 1539 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1597 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 252 "syntax_tree.y" /* yacc.c:1646  */
+#line 310 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("C:E >= E\n");(yyval.type_tnode)=newAst("C",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		char temp[10];
@@ -1560,11 +1618,11 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,label_Tran((yyval.type_tnode)->label.l_false));
 		strcat((yyval.type_tnode)->code,"\n");
 		}
-#line 1564 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1622 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 272 "syntax_tree.y" /* yacc.c:1646  */
+#line 330 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("C:E <= E\n");(yyval.type_tnode)=newAst("C",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		newlabel(&((yyval.type_tnode)->label.l_true));
@@ -1584,21 +1642,21 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,label_Tran((yyval.type_tnode)->label.l_false));
 		strcat((yyval.type_tnode)->code,"\n");
 		}
-#line 1588 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1646 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 291 "syntax_tree.y" /* yacc.c:1646  */
+#line 349 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("C:E <> E\n");(yyval.type_tnode)=newAst("C",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		newlabel(&((yyval.type_tnode)->label.l_true));
 		newlabel(&((yyval.type_tnode)->label.l_false));
 		strcat((yyval.type_tnode)->code,(yyvsp[-2].type_tnode)->code);// C.code = E1.code ||
 		strcat((yyval.type_tnode)->code,(yyvsp[0].type_tnode)->code);// E2.cide ||
-		//gen(‘if’ E1.place ‘!=’ E2.place ‘goto’ C.true) || 
+		//gen(‘if’ E1.place ‘<>’ E2.place ‘goto’ C.true) || 
 		strcat((yyval.type_tnode)->code,"if ");
 		strcat((yyval.type_tnode)->code,getPlaceStr((yyvsp[-2].type_tnode)));
-		strcat((yyval.type_tnode)->code," != ");
+		strcat((yyval.type_tnode)->code," <> ");
 		strcat((yyval.type_tnode)->code,getPlaceStr((yyvsp[0].type_tnode)));
 		strcat((yyval.type_tnode)->code," goto ");
 		strcat((yyval.type_tnode)->code,label_Tran((yyval.type_tnode)->label.l_true));
@@ -1608,11 +1666,11 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,label_Tran((yyval.type_tnode)->label.l_false));
 		strcat((yyval.type_tnode)->code,"\n");
 		}
-#line 1612 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1670 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 312 "syntax_tree.y" /* yacc.c:1646  */
+#line 370 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("E:E+T\n");(yyval.type_tnode)=newAst("E",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		//newtemp
@@ -1630,11 +1688,11 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,getPlaceStr((yyvsp[0].type_tnode)));
 		strcat((yyval.type_tnode)->code,"\n");
 		}
-#line 1634 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1692 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 329 "syntax_tree.y" /* yacc.c:1646  */
+#line 387 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("E:E-T\n");(yyval.type_tnode)=newAst("E",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		//newtemp
@@ -1652,31 +1710,31 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,getPlaceStr((yyvsp[0].type_tnode)));
 		strcat((yyval.type_tnode)->code,"\n");
 		}
-#line 1656 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1714 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 346 "syntax_tree.y" /* yacc.c:1646  */
+#line 404 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("E:T\n");(yyval.type_tnode)=newAst("E",1,(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		(yyval.type_tnode)->place = (yyvsp[0].type_tnode)->place;
 		strcat((yyval.type_tnode)->code,(yyvsp[0].type_tnode)->code);
 		}
-#line 1666 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1724 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 353 "syntax_tree.y" /* yacc.c:1646  */
+#line 411 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("T:F\n");(yyval.type_tnode)=newAst("T",1,(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		(yyval.type_tnode)->place = (yyvsp[0].type_tnode)->place;//T.place = F.place
 		strcat((yyval.type_tnode)->code,(yyvsp[0].type_tnode)->code);//T.code = F.code
 		}
-#line 1676 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1734 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 358 "syntax_tree.y" /* yacc.c:1646  */
+#line 416 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("T:T*F\n");(yyval.type_tnode)=newAst("T",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		//newtemp
@@ -1694,11 +1752,11 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,getPlaceStr((yyvsp[0].type_tnode)));
 		strcat((yyval.type_tnode)->code,"\n");
 		}
-#line 1698 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1756 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 375 "syntax_tree.y" /* yacc.c:1646  */
+#line 433 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("T:T/F\n");(yyval.type_tnode)=newAst("T",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		//newtemp
@@ -1716,21 +1774,21 @@ yyreduce:
 		strcat((yyval.type_tnode)->code,getPlaceStr((yyvsp[0].type_tnode)));
 		strcat((yyval.type_tnode)->code,"\n");
 		}
-#line 1720 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1778 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 394 "syntax_tree.y" /* yacc.c:1646  */
+#line 452 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("F:(E)\n");(yyval.type_tnode)=newAst("F",3,(yyvsp[-2].type_tnode),(yyvsp[-1].type_tnode),(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		(yyval.type_tnode)->place = (yyvsp[-1].type_tnode)->place;//F.place = E.place
 		strcat((yyval.type_tnode)->code,(yyvsp[-1].type_tnode)->code);//F.code = E.code
 		}
-#line 1730 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1788 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 399 "syntax_tree.y" /* yacc.c:1646  */
+#line 457 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("F:OCT\n");(yyval.type_tnode)=newAst("F",1,(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		char *endptr;
@@ -1738,11 +1796,11 @@ yyreduce:
 		(yyval.type_tnode)->place.value.flag = 1;//该节点为十六进制，value的flag取1
 		(yyval.type_tnode)->place.value.v = (int)strtol((yyvsp[0].type_tnode)->content, &endptr, 8);//赋值
 		}
-#line 1742 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1800 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 406 "syntax_tree.y" /* yacc.c:1646  */
+#line 464 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("F:DEC\n");(yyval.type_tnode)=newAst("F",1,(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		char *endptr;
@@ -1750,11 +1808,11 @@ yyreduce:
 		(yyval.type_tnode)->place.value.flag = 0;//该节点为十六进制，value的flag取0
 		(yyval.type_tnode)->place.value.v = (int)strtol((yyvsp[0].type_tnode)->content, &endptr, 10);//赋值
 		}
-#line 1754 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1812 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 413 "syntax_tree.y" /* yacc.c:1646  */
+#line 471 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("F:HEX\n");(yyval.type_tnode)=newAst("F",1,(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		char *endptr;
@@ -1762,21 +1820,21 @@ yyreduce:
 		(yyval.type_tnode)->place.value.flag = 2;//该节点为十六进制，value的flag取2
 		(yyval.type_tnode)->place.value.v = (int)strtol((yyvsp[0].type_tnode)->content, &endptr, 16);//赋值
 		}
-#line 1766 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1824 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 420 "syntax_tree.y" /* yacc.c:1646  */
+#line 478 "syntax_tree.y" /* yacc.c:1646  */
     {
 		printf("F:id\n");(yyval.type_tnode)=newAst("F",1,(yyvsp[0].type_tnode));nodeList[nodeNum]=(yyval.type_tnode);nodeNum++;
 		(yyval.type_tnode)->place.flag = 0;//该节点为变量名结点，flag取0
 		strcpy((yyval.type_tnode)->place.id_name,(yyvsp[0].type_tnode)->content);//读取叶结点的变量字符串
 		}
-#line 1776 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1834 "syntax_tree.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1780 "syntax_tree.tab.c" /* yacc.c:1646  */
+#line 1838 "syntax_tree.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2004,5 +2062,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 426 "syntax_tree.y" /* yacc.c:1906  */
+#line 484 "syntax_tree.y" /* yacc.c:1906  */
 
