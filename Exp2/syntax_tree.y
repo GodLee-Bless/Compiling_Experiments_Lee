@@ -60,7 +60,11 @@ E:E ADD T {printf("E:E+T\n");$$=newAst("E",3,$1,$2,$3);nodeList[nodeNum]=$$;node
 	|E SUB T {printf("E:E-T\n");$$=newAst("E",3,$1,$2,$3);nodeList[nodeNum]=$$;nodeNum++;}
 	|T {printf("E:T\n");$$=newAst("E",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
 	;
+<<<<<<< Updated upstream
 T:F {printf("T:F\n");$$=newAst("T",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
+=======
+T       :F {printf("T:F\n");$$=newAst("T",1,$1);nodeList[nodeNum]=$$;nodeNum++;}
+>>>>>>> Stashed changes
 	|T MUL F {printf("T:T*F\n");$$=newAst("T",3,$1,$2,$3);nodeList[nodeNum]=$$;nodeNum++;}
 	|T DIV F {printf("T:T/F\n");$$=newAst("T",3,$1,$2,$3);nodeList[nodeNum]=$$;nodeNum++;}
 	;

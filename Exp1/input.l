@@ -34,6 +34,8 @@ BEGIN begin
 END end
 %%
 \n {++line;}
+{ILHEX} {printf("ILHEX -\n");} 
+{ILOCT} {printf("ILOCT -\n");} 
 {DEC} {printf("DEC %s\n",yytext);} 
 {HEX} {
 			char *x = yytext;
@@ -58,8 +60,6 @@ END end
 			}
 			printf("OCT %d\n",num);
 		}
-{ILHEX} {printf("ILHEX -\n");} 
-{ILOCT} {printf("ILOCT -\n");} 
 {ADD} {printf("ADD -\n");} 
 {SUB} {printf("SUB -\n");}
 {MUL} {printf("MUL -\n");}

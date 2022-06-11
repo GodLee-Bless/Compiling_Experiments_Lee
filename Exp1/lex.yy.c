@@ -382,11 +382,11 @@ struct yy_trans_info
 static const flex_int16_t yy_accept[60] =
     {   0,
         0,    0,   31,   28,   28,    1,   17,   18,    9,    7,
-        8,   10,    2,    2,   27,   12,   13,   11,   26,   26,
-       26,   26,   26,   26,   26,   29,    0,    4,    6,    0,
-        2,   15,   16,   14,   26,   26,   22,   26,   26,   19,
-       26,   26,    4,    6,    3,    5,   26,   26,   24,   26,
-       26,    5,   26,   21,   20,   26,   23,   25,    0
+        8,   10,    4,    4,   27,   12,   13,   11,   26,   26,
+       26,   26,   26,   26,   26,   29,    0,    6,    3,    0,
+        4,   15,   16,   14,   26,   26,   22,   26,   26,   19,
+       26,   26,    6,    3,    5,    2,   26,   26,   24,   26,
+       26,    2,   26,   21,   20,   26,   23,   25,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -813,11 +813,21 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 37 "input.l"
-{printf("DEC %s\n",yytext);} 
+{printf("ILHEX -\n");} 
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 38 "input.l"
+{printf("ILOCT -\n");} 
+	YY_BREAK
+case 4:
+YY_RULE_SETUP
+#line 39 "input.l"
+{printf("DEC %s\n",yytext);} 
+	YY_BREAK
+case 5:
+YY_RULE_SETUP
+#line 40 "input.l"
 {
 			char *x = yytext;
 			int num = 0, n = 0, length = strlen(yytext);
@@ -833,9 +843,9 @@ YY_RULE_SETUP
 			printf("HEX %d\n",num);
 		}
 	YY_BREAK
-case 4:
+case 6:
 YY_RULE_SETUP
-#line 52 "input.l"
+#line 54 "input.l"
 {
 			char *x = yytext;
 			int num = 0, n = 0, length = strlen(yytext);
@@ -845,16 +855,6 @@ YY_RULE_SETUP
 			}
 			printf("OCT %d\n",num);
 		}
-	YY_BREAK
-case 5:
-YY_RULE_SETUP
-#line 61 "input.l"
-{printf("ILHEX -\n");} 
-	YY_BREAK
-case 6:
-YY_RULE_SETUP
-#line 62 "input.l"
-{printf("ILOCT -\n");} 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
