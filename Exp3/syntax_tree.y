@@ -38,6 +38,27 @@
 SS      :P{	
 		printf("SS:P\n");$$=newAst("SS",1,$1);nodeList[nodeNum]=$$;nodeNum++;
 		strcat($$->code,$1->code);
+		
+		//删去最终代码中重复的label
+		for(int i = 0; i < label_count; i++){
+			char* rplabel = (char*)malloc(20);
+			char* label = (char*)malloc(20);
+			memset(rplabel, 0 ,sizeof(char)*20);
+			memset(label, 0 ,sizeof(char)*20);
+			
+			/*strcat(rplabel,label_Tran(i));
+			strcat(rplabel,":\n");
+			strcat(rplabel,label_Tran(i));
+			strcat(rplabel,":");			
+			strcat(label,label_Tran(i));
+			strcat(label,":");*/
+			sprintf(rplabel,"%s: \n%s:",label_Tran(i),label_Tran(i));
+			sprintf(label,"%s:",label_Tran(i));
+			printf("a = \n%s\nb = \n%s\n",rplabel,label);
+			strrpc($$->code,rplabel,label);
+		}
+		
+		
 		printf("\n\n\n%s",$$->code);
 		}
 	;	
@@ -53,10 +74,6 @@ P       :L{
 		}
 	|L P {
 		printf("P:L P\n");$$=newAst("P",2,$1,$2);nodeList[nodeNum]=$$;nodeNum++;
-		char temp[10] = {10};//P1.begin的label	
-		sprintf(temp,"L%d",$2->label.l_begin);
-		char temp1[10] = {10};//L.next的label
-		sprintf(temp1,"L%d",$1->label.l_next);
 		
 		//P.begin = L.begin ; P.next = P1.next;
 		$$->label.l_begin = $1->label.l_begin;
@@ -66,7 +83,7 @@ P       :L{
 		strcat($$->code,$2->code);//P1.code
 		
 		//用P1.begin回填L.next
-		strrpc($$->code,temp1,temp);
+		strrpc($$->code,label_Tran($1->label.l_next),label_Tran($2->label.l_begin));
 		
 		
 		//printf("\n\n\n%s",$$->code);
@@ -74,16 +91,14 @@ P       :L{
 	;
 	
 L       :S SEMI {
-		printf("L:S SEMI\n");$$=newAst("L",2,$1,$2);nodeList[nodeNum]=$$;nodeNum++;				
-		char temp[10] = {0};//S.next的label
-		sprintf(temp,"L%d",$1->label.l_next);	
+		printf("L:S SEMI\n");$$=newAst("L",2,$1,$2);nodeList[nodeNum]=$$;nodeNum++;	
 		
 		//L.label = S.label
 		$$->label = $1->label;
 		
 		strcat($$->code,$1->code);//L.code = S.code		
 		//gen(S.next ':')
-		strcat($$->code,temp);
+		strcat($$->code,label_Tran($1->label.l_next));
 		strcat($$->code,": \n");
 		//printf("\n\n\n%s",$$->code);
 		}
@@ -108,25 +123,17 @@ S       :id EQ E {
 		newlabel(&($$->label.l_begin));
 		$$->label.l_next = $4->label.l_next;//S.next = S1.next
 		
-		char temp[10] = {0};//C.true的label	
-		sprintf(temp,"L%d",$2->label.l_true);
-		char temp1[10] = {0};//C.false的label
-		sprintf(temp1,"L%d",$2->label.l_false);
-		char temp2[10] = {0};//S.next的label
-		sprintf(temp2,"L%d",$$->label.l_next);
-		char temp3[10] = {0};//S1.begin的label
-		sprintf(temp3,"L%d",$4->label.l_begin);
 		
 		strcat($$->code,$2->code);//S.code = C.code ||
 		//gen(C.true ':') ||
-		strcat($$->code,temp);
+		strcat($$->code,label_Tran($2->label.l_true));
 		strcat($$->code,": \n");
 		strcat($$->code,$4->code);// S1.code
 		
 		//用S.next 回填 C.false
-		strrpc($$->code,temp1,temp2);
+		strrpc($$->code,label_Tran($2->label.l_false),label_Tran($$->label.l_next));
 		//用S1.begin 回填 C.true
-		strrpc($$->code,temp,temp3);
+		strrpc($$->code,label_Tran($2->label.l_true),label_Tran($4->label.l_begin));
 		
 		}
 	|WHILE C DO S {
@@ -135,29 +142,24 @@ S       :id EQ E {
 		$$->label.l_next = $2->label.l_false;
 		$$->label.l_begin = $4->label.l_next;
 		
-		char temp[10] = {0};//S.begin的label
-		sprintf(temp,"L%d",$$->label.l_begin);	
-		char temp1[10] = {0};//C.true的label
-		sprintf(temp1,"L%d",$2->label.l_true);
-		char temp2[10] = {0};//S1.begin的label
-		sprintf(temp2,"L%d",$4->label.l_begin);
-		
 		//S.code = gen(S.begin ':') ||
-		strcat($$->code,temp);
+		strcat($$->code,label_Tran($$->label.l_begin));
 		strcat($$->code,": \n");
 		strcat($$->code,$2->code);//C.code ||
 		//gen(C.true ':') ||
-		strcat($$->code,temp1);
+		strcat($$->code,label_Tran($2->label.l_true));
 		strcat($$->code,": \n");
 		strcat($$->code,$4->code);//S1.code ||
 		//gen('goto' S.begin)
 		strcat($$->code,"goto ");
-		strcat($$->code,temp);
+		strcat($$->code,label_Tran($$->label.l_begin));
 		strcat($$->code,"\n");
 		//printf("\n\n\n%s\n\n\n",$$->code);
 		
 		//S1.begin 回填 C.true
-		strrpc($$->code,temp1,temp2);
+		strrpc($$->code,label_Tran($2->label.l_true),label_Tran($4->label.l_begin));
+		//printf("\n\n\n%s",$$->code);
+		
 		}
 	;
 	
@@ -199,13 +201,12 @@ C       :E GT E {
 		strcat($$->code,getPlaceStr($1));
 		strcat($$->code," > ");
 		strcat($$->code,getPlaceStr($3));
-		strcat($$->code," goto L");
-		sprintf(temp,"%d\n",$$->label.l_true);
-		strcat($$->code,temp);
+		strcat($$->code," goto ");
+		strcat($$->code,label_Tran($$->label.l_true));
+		strcat($$->code,"\n");
 		//gen(‘goto’ C.false)
-		strcat($$->code,"goto L");
-		sprintf(temp,"%d",$$->label.l_false);
-		strcat($$->code,temp);
+		strcat($$->code,"goto ");
+		strcat($$->code,label_Tran($$->label.l_false));
 		strcat($$->code,"\n");
 		}
 	|E LT E {
@@ -220,13 +221,12 @@ C       :E GT E {
 		strcat($$->code,getPlaceStr($1));
 		strcat($$->code," < ");
 		strcat($$->code,getPlaceStr($3));
-		strcat($$->code," goto L");
-		sprintf(temp,"%d\n",$$->label.l_true);
-		strcat($$->code,temp);
+		strcat($$->code," goto ");
+		strcat($$->code,label_Tran($$->label.l_true));
+		strcat($$->code,"\n");
 		//gen(‘goto’ C.false)
-		strcat($$->code,"goto L");
-		sprintf(temp,"%d",$$->label.l_false);
-		strcat($$->code,temp);
+		strcat($$->code,"goto ");
+		strcat($$->code,label_Tran($$->label.l_false));
 		strcat($$->code,"\n");
 		}
 	|E EQ E {
@@ -241,13 +241,12 @@ C       :E GT E {
 		strcat($$->code,getPlaceStr($1));
 		strcat($$->code," = ");
 		strcat($$->code,getPlaceStr($3));
-		strcat($$->code," goto L");
-		sprintf(temp,"%d\n",$$->label.l_true);
-		strcat($$->code,temp);
+		strcat($$->code," goto ");
+		strcat($$->code,label_Tran($$->label.l_true));
+		strcat($$->code,"\n");
 		//gen(‘goto’ C.false)
-		strcat($$->code,"goto L");
-		sprintf(temp,"%d",$$->label.l_false);
-		strcat($$->code,temp);
+		strcat($$->code,"goto ");
+		strcat($$->code,label_Tran($$->label.l_false));
 		strcat($$->code,"\n");
 		}
 	|E GE E {
@@ -262,18 +261,16 @@ C       :E GT E {
 		strcat($$->code,getPlaceStr($1));
 		strcat($$->code," >= ");
 		strcat($$->code,getPlaceStr($3));
-		strcat($$->code," goto L");
-		sprintf(temp,"%d\n",$$->label.l_true);
-		strcat($$->code,temp);
+		strcat($$->code," goto ");
+		strcat($$->code,label_Tran($$->label.l_true));
+		strcat($$->code,"\n");
 		//gen(‘goto’ C.false)
-		strcat($$->code,"goto L");
-		sprintf(temp,"%d",$$->label.l_false);
-		strcat($$->code,temp);
+		strcat($$->code,"goto ");
+		strcat($$->code,label_Tran($$->label.l_false));
 		strcat($$->code,"\n");
 		}
 	|E LE E {
 		printf("C:E <= E\n");$$=newAst("C",3,$1,$2,$3);nodeList[nodeNum]=$$;nodeNum++;
-		char temp[10];
 		newlabel(&($$->label.l_true));
 		newlabel(&($$->label.l_false));
 		strcat($$->code,$1->code);// C.code = E1.code ||
@@ -283,18 +280,16 @@ C       :E GT E {
 		strcat($$->code,getPlaceStr($1));
 		strcat($$->code," <= ");
 		strcat($$->code,getPlaceStr($3));
-		strcat($$->code," goto L");
-		sprintf(temp,"%d\n",$$->label.l_true);
-		strcat($$->code,temp);
+		strcat($$->code," goto ");
+		strcat($$->code,label_Tran($$->label.l_true));
+		strcat($$->code,"\n");
 		//gen(‘goto’ C.false)
-		strcat($$->code,"goto L");
-		sprintf(temp,"%d",$$->label.l_false);
-		strcat($$->code,temp);
+		strcat($$->code,"goto ");
+		strcat($$->code,label_Tran($$->label.l_false));
 		strcat($$->code,"\n");
 		}
 	|E NEQ E {
 		printf("C:E <> E\n");$$=newAst("C",3,$1,$2,$3);nodeList[nodeNum]=$$;nodeNum++;
-		char temp[10];
 		newlabel(&($$->label.l_true));
 		newlabel(&($$->label.l_false));
 		strcat($$->code,$1->code);// C.code = E1.code ||
@@ -304,13 +299,12 @@ C       :E GT E {
 		strcat($$->code,getPlaceStr($1));
 		strcat($$->code," != ");
 		strcat($$->code,getPlaceStr($3));
-		strcat($$->code," goto L");
-		sprintf(temp,"%d\n",$$->label.l_true);
-		strcat($$->code,temp);
+		strcat($$->code," goto ");
+		strcat($$->code,label_Tran($$->label.l_true));
+		strcat($$->code,"\n");
 		//gen(‘goto’ C.false)
-		strcat($$->code,"goto L");
-		sprintf(temp,"%d",$$->label.l_false);
-		strcat($$->code,temp);
+		strcat($$->code,"goto ");
+		strcat($$->code,label_Tran($$->label.l_false));
 		strcat($$->code,"\n");
 		}
 	;

@@ -75,10 +75,136 @@ void newlabel(int *ast_label){
 		else{
 			label_list[i] = 1;
 			*ast_label = i; 
+			label_count++;
 			return;
 		}
 	}
 	perror("No availiable label!\n");//标签不足报错
+}
+
+//将label对应的编号转为正规形式 如：155 -> _Ae5
+char* label_Tran(int label_num){
+	char * tempstr = (char*)malloc(11);
+	memset(tempstr, 0 ,sizeof(char)*10);
+	char alpha1,alpha2;
+	
+	if(label_num < 10){
+		sprintf(tempstr,"_%d",label_num);
+	}
+	else if(label_num < 100){
+		int a = label_num / 10;//十位
+		int b = label_num % 10;//个位
+		
+		switch(a){
+    			case 1:
+       			alpha1 = 'A';
+       			break; 
+    			case 2:
+       			alpha1 = 'B';
+       			break; 
+    			case 3:
+       			alpha1 = 'C';
+       			break; 
+    			case 4:
+       			alpha1 = 'D';
+       			break; 
+    			case 5:
+       			alpha1 = 'E';
+       			break; 
+    			case 6:
+       			alpha1 = 'F';
+       			break; 
+    			case 7:
+       			alpha1 = 'G';
+       			break; 
+    			case 8:
+       			alpha1 = 'H';
+       			break; 
+    			case 9:
+       			alpha1 = 'I';
+       			break; 
+    			default : 
+       			perror("label transaction error!\n");
+       			exit(1);
+		}
+		sprintf(tempstr,"_%c%d",alpha1,b);
+	}
+	else{//label_num <1000
+		int a = label_num / 100;//百位
+		int b = (label_num - a * 100) / 10;//十位
+		int c = (label_num - a * 100) - b * 10 ;//个位 
+		
+		switch(b){
+    			case 1:
+       			alpha1 = 'A';
+       			break; 
+    			case 2:
+       			alpha1 = 'B';
+       			break; 
+    			case 3:
+       			alpha1 = 'C';
+       			break; 
+    			case 4:
+       			alpha1 = 'D';
+       			break; 
+    			case 5:
+       			alpha1 = 'E';
+       			break; 
+    			case 6:
+       			alpha1 = 'F';
+       			break; 
+    			case 7:
+       			alpha1 = 'G';
+       			break; 
+    			case 8:
+       			alpha1 = 'H';
+       			break; 
+    			case 9:
+       			alpha1 = 'I';
+       			break; 
+       		case 0:
+				alpha1 = 'J';
+    			default : 
+       			perror("label transaction error!\n");
+       			exit(1);
+		}
+		
+		switch(a){
+    			case 1:
+       			alpha2 = 'a';
+       			break; 
+    			case 2:
+       			alpha2 = 'b';
+       			break; 
+    			case 3:
+       			alpha2 = 'c';
+       			break; 
+    			case 4:
+       			alpha2 = 'd';
+       			break; 
+    			case 5:
+       			alpha2 = 'e';
+       			break; 
+    			case 6:
+       			alpha2 = 'f';
+       			break; 
+    			case 7:
+       			alpha2 = 'g';
+       			break; 
+    			case 8:
+       			alpha2 = 'h';
+       			break; 
+    			case 9:
+       			alpha2 = 'i';
+       			break; 
+    			default : 
+       			perror("label transaction error!\n");
+       			exit(1);
+		}		
+		sprintf(tempstr,"_%c%c%d",alpha2,alpha1,c);
+	}
+	
+	return tempstr;
 }
 
 // 新申请一个临时变量
@@ -171,6 +297,8 @@ int main(int argc, char **argv)
     for(int i = 0; i < 1000; i++){
     	label_list[i] = 0;
     }
+    label_count = 0;//初始化全局变量
+    
     printf("start analysis!\n");
     if (argc < 2)
     {

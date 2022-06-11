@@ -57,12 +57,16 @@ Ast newLeafAst(char *name,char *yytext, int lineno);//终结符结点构造
 void Preorder(Ast ast,int level);
 // 新申请一个标签
 void newlabel(int *ast_label);
+//将label对应的编号转为正规形式 如：155 -> _Ae5
+char* label_Tran(int label_num);
 // 新申请一个临时变量
 void newtemp(int *ast_temp);
 //返回一个结点的place值对应的字符串
 char* getPlaceStr(Ast ast);
 //替换字符串中的字符串
 char *strrpc(char *str,char *oldstr,char *newstr);
+//删去重复的label
+//void del_RepeatLabel();
 
 
 // 所有节点数量
@@ -72,6 +76,8 @@ tnode nodeList[5000];
 int nodeIsChild[5000];
 // label数组
 int label_list[1000];//元素为1表示该元素所对应下标已被用作lable
+// label数量
+int label_count;
 // temp数组
 int temp_list[1000];//元素为1表示该元素所对应下标已被用作临时变量
 // 设置节点打印状态
